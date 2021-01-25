@@ -1,12 +1,11 @@
-#include<stdio.h>
+#include <iostream>
 #include <ctime>
-#include <cstdlib>
 #include <vector>
 #include <windows.h>
 
-#define HEIGHT 15
-#define WIDTH 20
-#define FRAMERATE 8
+#define HEIGHT 20
+#define WIDTH 40
+#define FRAMERATE 10
 
 class bodyPart
 {
@@ -60,6 +59,7 @@ int direction = VK_RIGHT, fruitPosNum;
 std::vector<bodyPart> Body;
 std::vector<coordinates> spaces;
 bodyPart Fruit('*');
+fClock FRControl;
 
 void clearGrid();
 void addBody();
@@ -73,13 +73,14 @@ void gameOver();
 
 int main()
 {
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
     srand((unsigned) time(0));
     Body.push_back(bodyPart('0', WIDTH/2, HEIGHT/2));
     for(int i = 0; i < 3; i++) Body.push_back(bodyPart('o', Body[0].x - (i+1), Body[0].y));
     clearGrid();
     addBody();
     generateFruit();
-    fClock FRControl;
     while(true)
     {
         if(FRControl.getElapsedTime() >= (1000 / FRAMERATE))
@@ -128,8 +129,8 @@ void draw()
     for(int i = 0; i < HEIGHT + 2; i++)
     {
         for(int j = 0; j < WIDTH + 2; j++)
-            printf("%c", ScreenGrid[i][j]);
-        printf("\n");
+            std::cout << ScreenGrid[i][j];
+        std::cout << std::endl;
     }
 }
 
@@ -191,28 +192,26 @@ void updateHeadLocation()
             break;
         case VK_LEFT:
             Body[0].x--;
-            break;/**/
-        /*case VK_UP:
-            Body[0].y-=speed;
             break;
-        case VK_DOWN:
-            Body[0].y+=speed;
-            break;
-        case VK_RIGHT:
-            Body[0].x+=speed;
-            break;
-        case VK_LEFT:
-            Body[0].x-=speed;
-            break;/**/
     }
 }
 
 void gameOver()
 {
-    system("cls");
-    printf("\n\n\n\n\n\n\n\n\n\n\n   *** GAME OVER ***\n\n\n\n\n\n\n\n\n\npress ENTER to exit...");
+    int Dots = 0;
     while(true)
     {
+        if(FRControl.getElapsedTime() >= (1000 / FRAMERATE))
+        {
+            FRControl.restart();
+            system("cls");
+            std::cout << "\n\n\n\n\n\n\n\n\n\n                              ";
+            std::cout << "*** GAME OVER ***\n\n\n\n\n\n\n\n                             press ENTER to exit\n                             ";
+            for(int i=0; i<Dots; i++) std::cout << '.';
+            std::cout << std::endl;
+            if(Dots>=19) Dots=0;
+            else Dots++;
+        }
         if(GetAsyncKeyState(VK_RETURN)) exit(0);
     }
 }

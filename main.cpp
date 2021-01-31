@@ -5,7 +5,7 @@
 
 #define HEIGHT 20
 #define WIDTH 40
-#define FRAMERATE 10
+#define FRAMERATE 5
 
 class bodyPart
 {

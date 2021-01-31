@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1612085023 source:c:\users\mohti\desktop\projects\console_snake\main.cpp
+	<iostream>
+	<ctime>
+	<vector>
+	<windows.h>
+
